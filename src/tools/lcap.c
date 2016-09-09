@@ -42,7 +42,7 @@ static inline bool fid_is_zero(const lustre_fid *fid)
 
 void static usage(void)
 {
-    fprintf(stderr, "Usage: lcap [-d] <mdtname>\n");
+    fprintf(stderr, "Usage: lcap [-d] [-u cl1] <mdtname>\n");
 }
 
 int main(int ac, char **av)
@@ -53,18 +53,21 @@ int main(int ac, char **av)
     int                      flags = LCAP_CL_BLOCK;
     int                      c;
     int                      rc;
+    char                     clid[64] = {0};
 
     if (ac < 2) {
         usage();
         return 1;
     }
 
-    while ((c = getopt(ac, av, "d")) != -1) {
+    while ((c = getopt(ac, av, "du:")) != -1) {
         switch (c) {
             case 'd':
                 flags |= LCAP_CL_DIRECT;
                 break;
-
+            case 'u':
+                strlcpy(clid, optarg, sizeof(clid));
+                break;
             case '?':
                 fprintf(stderr, "Unknown option: %s\n", optopt);
                 usage();
@@ -72,6 +75,10 @@ int main(int ac, char **av)
         }
     }
 
+    if ((flags & LCAP_CL_DIRECT) && strlen(clid) == 0) {
+        fprintf(stderr, "Missing changelog registration id for DIRECT mode..\n");
+        return 1;
+    }
     ac -= optind;
     av += optind;
 
@@ -121,7 +128,7 @@ int main(int ac, char **av)
 
         printf("\n");
 
-        rc = lcap_changelog_clear(ctx, mdtname, "", rec->cr_index);
+        rc = lcap_changelog_clear(ctx, mdtname, clid, rec->cr_index);
         if (rc < 0) {
             fprintf(stderr, "lcap_changelog_clear: %s\n", zmq_strerror(-rc));
             return 1;
