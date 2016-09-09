@@ -24,6 +24,8 @@ AC_ENABLE_STATIC(no)
 AC_GNU_SOURCE
 AC_PROG_CC
 AC_PROG_LIBTOOL
+AM_PROG_AR
+AM_PROG_CC_C_O
 
 lcap_lib_version=`echo $VERSION | sed -e "s/\./:/g"`
 AC_SUBST(lcap_lib_version)
