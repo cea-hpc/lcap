@@ -238,6 +238,8 @@ static int lcap_parse_config_file(struct lcap_cfg *config)
         return -ENOENT;
     }
 
+    errno = 0;
+
     while (fgets(line, sizeof(line), fin)) {
         rc = __parse_config_line(config, line);
         if (rc) {
