@@ -3,8 +3,8 @@ LCAP
 
 LCAP stands for "Lustre Changelog Aggregate and Publish"
 
-It consists in a core daemon (lcapd), a client library and a serie of
-server-side processing modules. lcapd reads lustre 2.x Changelog records
+It consists in a core daemon (lcapd), a client library and a series of
+server-side processing modules. lcapd reads Lustre 2.x Changelog records
 and process them using specialized modules to distribute them (or not)
 to its clients.
 
@@ -24,8 +24,8 @@ note that the existing code has been developed and tested under x86_64 only.
 Running lcap
 ------------
 
-Lcap comes with a testing tool suprisingly called `lcap' and wich simply reads
-changelog records, similarly to what `lfs changelog'.
+Lcap comes with a testing tool surprisingly called `lcap' and which simply reads
+changelog records (records similar to `lfs changelog').
 
 The client and the server can be started in any order. Whoever is started first
 will wait for the other one to get online.
